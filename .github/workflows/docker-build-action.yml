@@ -2,10 +2,8 @@ name: Docker Push
 
 on:
   push:
-
     tags:
       - '*'
-
   pull_request:
 
 jobs:
@@ -44,6 +42,8 @@ jobs:
             ghcr.io/${{ github.repository }}:latest
             ghcr.io/${{ github.repository }}:${{ github.ref_name }}
             ghcr.io/${{ github.repository }}:${{ env.TAG }}
+          build-args: |
+            DAGSTER_VERSION=${{ env.TAG }}
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
