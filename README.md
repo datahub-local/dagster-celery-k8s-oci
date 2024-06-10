@@ -1,1 +1,1 @@
-# dagster-cellery-k8s-oci
+# dagster-celery-k8s-oci
