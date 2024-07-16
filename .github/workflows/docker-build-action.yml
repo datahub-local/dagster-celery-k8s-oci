@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  ubuntu_latest_deploy:
+  dagster_build_latest:
     runs-on: ubuntu-latest
     permissions:
       packages: write
