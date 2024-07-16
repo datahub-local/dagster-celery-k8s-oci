@@ -31,6 +31,7 @@ jobs:
       - name: Obtain Dagster version
         run: |
           DAGSTER_VERSION=$(curl -s https://pypi.org/pypi/dagster/json | jq -r '.info.version')
+          echo "DAGSTER_VERSION=$DAGSTER_VERSION" >> $GITHUB_ENV
           
           if [[ ! -z "$(docker images -q ghcr.io/${{ github.repository }}:$DAGSTER_VERSION)" ]]; then
             echo "Skipping version $DAGSTER_VERSION: it already exists."
