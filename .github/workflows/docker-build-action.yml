@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  dagster_build_latest:
+  docker-build-action:
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -37,7 +37,9 @@ jobs:
           if [[ ! -z "$(docker images -q ghcr.io/${{ github.repository }}:$DAGSTER_VERSION)" ]]; then
             echo "Skipping version $DAGSTER_VERSION: it already exists."
             echo "skipBuild=TRUE" >> $GITHUB_OUTPUT
-          fi          
+          fi
+
+          echo "skipBuild=FALSE" >> $GITHUB_OUTPUT
 
       - name: Build and push
         uses: docker/build-push-action@v5
@@ -53,4 +55,4 @@ jobs:
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
-        if: ${{ needs.versionSelector.outputs.skipBuild == 'true' }}
+        if: ${{ needs.versionSelector.outputs.skipBuild != 'TRUE' }}
