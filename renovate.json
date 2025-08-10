@@ -40,18 +40,15 @@
     {
       "customType": "regex",
       "managerFilePatterns": [
-        "^pyproject.toml$"
+        "/(^|/)pyproject\\.toml$/"
       ],
+      "matchStringsStrategy": "combination",
       "matchStrings": [
-        "dagster==(?<dep_ver>[0-9.]+)",
-        "version = \"(?<current_ver>[0-9.]+)\""
+        "version = \"(?<currentValue>[0-9.]+)\""
       ],
-      "depNameTemplate": "my.new.registry/aRepository/andImage",
-      "datasourceTemplate": "pip",
-      "versioningTemplate": "semver",
-      "currentValueTemplate": "{{current_ver}}",
-      "extractVersionTemplate": "{{dep_ver}}",
-      "autoReplaceStringTemplate": "version = \"{{dep_ver}}\""
+      "datasourceTemplate": "pypi",
+      "depNameTemplate": "dagster",
+      "autoReplaceStringTemplate": "version = \"{{newValue}}\""
     }
   ]
 }
