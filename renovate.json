@@ -7,9 +7,6 @@
   "prCreation": "immediate",
   "automergeStrategy": "squash",
   "forkProcessing": "enabled",
-  "managerFilePatterns": [
-    "/(^|/)pyproject\\.toml$/"
-  ],
   "ignorePaths": [
     "**/.github/**",
     "**/Dockerfile"
