@@ -1,0 +1,57 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    ":semanticCommits"
+  ],
+  "automerge": false,
+  "prCreation": "immediate",
+  "automergeStrategy": "squash",
+  "forkProcessing": "enabled",
+  "managerFilePatterns": [
+    "/(^|/)pyproject\\.toml$/"
+  ],
+  "ignorePaths": [
+    "**/.github/**",
+    "**/Dockerfile"
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": [
+        "pypi"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "lockFileMaintenance": {
+        "enabled": true
+      },
+      "groupName": "all non-major Python dependencies ({{ lookup (split (lowercase releaseTimestamp) 't') 0 }})",
+      "groupSlug": "all-minor-patch-python"
+    },
+    {
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "enabled": false
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "^pyproject.toml$"
+      ],
+      "matchStrings": [
+        "dagster==(?<dep_ver>[0-9.]+)",
+        "version = \"(?<current_ver>[0-9.]+)\""
+      ],
+      "depNameTemplate": "my.new.registry/aRepository/andImage",
+      "datasourceTemplate": "pip",
+      "versioningTemplate": "semver",
+      "currentValueTemplate": "{{current_ver}}",
+      "extractVersionTemplate": "{{dep_ver}}",
+      "autoReplaceStringTemplate": "version = \"{{dep_ver}}\""
+    }
+  ]
+}
