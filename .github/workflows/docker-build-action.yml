@@ -4,8 +4,8 @@ on:
   push:
     branches: [main]
     paths:
-    - 'uv.lock'
-    - 'pyproject.toml'
+      - "uv.lock"
+      - "pyproject.toml"
 
 jobs:
   build:
@@ -14,23 +14,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-    
       - name: Extract dagster version from pyproject.toml
         id: versionSelector
         run: |
-          DAGSTER_VERSION=$(grep -oP 'dagster==\K[0-9.]+(?=\")' pyproject.toml)
-          echo "DAGSTER_VERSION=$DAGSTER_VERSION" >> $GITHUB_ENV
-          
-          if [[ ! -z "$(docker images -q ghcr.io/${{ github.repository }}:$DAGSTER_VERSION)" ]]; then
-            echo "Skipping version $DAGSTER_VERSION: it already exists."
+          TAG_VERSION=$(sed -n -E 's/version = "([0-9.]+)"/\1/p' pyproject.toml)
+          echo "TAG_VERSION=$TAG_VERSION" >> $GITHUB_ENV
+
+          if [[ ! -z "$(docker images -q ghcr.io/${{ github.repository }}:$TAG_VERSION)" ]]; then
+            echo "Skipping version $TAG_VERSION: it already exists."
             echo "skipBuild=TRUE" >> $GITHUB_OUTPUT
           fi
 
           echo "skipBuild=FALSE" >> $GITHUB_OUTPUT
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: Build and push
         uses: docker/build-push-action@v5
@@ -40,9 +38,9 @@ jobs:
           pull: true
           tags: |
             ghcr.io/${{ github.repository }}:latest
-            ghcr.io/${{ github.repository }}:${{ env.DAGSTER_VERSION }}
+            ghcr.io/${{ github.repository }}:${{ env.TAG_VERSION }}
           build-args: |
-            DAGSTER_VERSION=${{ env.DAGSTER_VERSION }}
+            TAG_VERSION=${{ env.TAG_VERSION }}
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
