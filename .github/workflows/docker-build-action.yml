@@ -18,6 +18,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        
+      - name: Set ENV variables
+        run: |
+          echo "REPO_NAME=${GITHUB_REPOSITORY#$GITHUB_REPOSITORY_OWNER/}" >> $GITHUB_ENV
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -35,11 +39,11 @@ jobs:
       - name: Clean up old package versions
         uses: actions/delete-package-versions@v5
         with: 
-          package-name: '${{ github.repository }}'
+          package-name: '${{ env.REPO_NAME }}'
           package-type: 'container'
           min-versions-to-keep: 5
 
-      - name: Extract dagster version from pyproject.toml
+      - name: Extract version tag from pyproject.toml
         id: versionSelector
         run: |
           TAG_VERSION=$(sed -n -E 's/version = "([0-9.]+)"/\1/p' pyproject.toml)
