@@ -18,4 +18,5 @@ dependencies = [
     "dagster-spark==0.27.6",
     "dagster-ssh==0.27.6",
     "dagster-webserver==1.11.6",
+    "redis==6.4.0",
 ]
