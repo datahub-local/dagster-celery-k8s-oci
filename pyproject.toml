@@ -1,22 +1,22 @@
 [project]
 name = "dagster-celery-k8s-oci"
-version = "1.11.6"
+version = "1.11.7"
 description = "dagster-celery-k8s OCI image for Dagster deployments"
 readme = "README.md"
 requires-python = "~=3.13"
 dependencies = [
-    "dagster==1.11.6",
-    "dagster-aws==0.27.6",
-    "dagster-celery==0.27.6",
-    "dagster-celery-k8s==0.27.6",
-    "dagster-dbt==0.27.6",
-    "dagster-embedded-elt==0.27.6",
-    "dagster-graphql==1.11.6",
-    "dagster-k8s==0.27.6",
-    "dagster-postgres==0.27.6",
-    "dagster-pyspark==0.27.6",
-    "dagster-spark==0.27.6",
-    "dagster-ssh==0.27.6",
-    "dagster-webserver==1.11.6",
+    "dagster==1.11.7",
+    "dagster-aws==0.27.7",
+    "dagster-celery==0.27.7",
+    "dagster-celery-k8s==0.27.7",
+    "dagster-dbt==0.27.7",
+    "dagster-embedded-elt==0.27.7",
+    "dagster-graphql==1.11.7",
+    "dagster-k8s==0.27.7",
+    "dagster-postgres==0.27.7",
+    "dagster-pyspark==0.27.7",
+    "dagster-spark==0.27.7",
+    "dagster-ssh==0.27.7",
+    "dagster-webserver==1.11.7",
     "redis==6.4.0",
 ]
